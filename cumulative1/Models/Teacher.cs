@@ -12,7 +12,7 @@ namespace cumulative1.Models
         public string TeacherFname;
         public string TeacherLname;
         public string EmployeeNumber;
-        public string HireDate;
+        public DateTime HireDate;
         public string Salary;
 
         //parameter-less constructor function
