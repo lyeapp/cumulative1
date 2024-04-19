@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Web.Http;
 using cumulative1.Models;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.X509;
 
 
 
@@ -185,6 +186,32 @@ namespace cumulative1.Controllers
             cmd.ExecuteNonQuery();
             Conn.Close();
 
+        }
+        public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        {
+            //Create an instance of a connection
+            MySqlConnection Conn = School.AccessDatabase();
+
+            
+            //Open the connection between the web server and database
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            //SQL QUERY
+            cmd.CommandText = "update teachers set teacherfname=@TeacherFname,teacherlname=@TeacherLname,employeenumber=@EmployeeNumber,hiredate=@HireDate,salary=@Salary where teacherid=@TeacherId";
+            cmd.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@EmployeeNumber", TeacherInfo.EmployeeNumber);
+            cmd.Parameters.AddWithValue("@HireDate", TeacherInfo.HireDate);
+            cmd.Parameters.AddWithValue("@Salary", TeacherInfo.Salary);
+            cmd.Parameters.AddWithValue("@TeacherId", id);
+            cmd.Prepare();
+
+
+            cmd.ExecuteNonQuery();
+            Conn.Close();
         }
 
     }
